@@ -18,5 +18,5 @@ class MyTestCase(unittest.TestCase):
         self.assertIn(factor_2, semiprime.factors)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

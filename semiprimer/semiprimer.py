@@ -41,7 +41,6 @@ class SemiPrime:
                 print(f"Nodes Processed: {nodes_processed}")
                 print(f"Node List Length: {len(self.nodes)}")
                 print(f"Most Recent Node: a={node.a}, b={node.b}, level={node.level}")
-                
 
     def initialize_node_list(self):
         nodes = self.sub_factor(target=self.semiprime_string[-1:])
