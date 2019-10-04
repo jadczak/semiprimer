@@ -24,20 +24,26 @@ class SemiPrime:
     def factor(self):
         self.initialize_node_list()
         nodes_processed = 0
+        nodes_rejected = 0
         while self.nodes:
-            node = self.nodes.popleft()
-            if node.a * node.b == self.semiprime_int and node.a != 1 and node.b != 1:
+            node = self.nodes.pop()
+            ab_product = node.a * node.b
+            if ab_product == self.semiprime_int and node.a != 1 and node.b != 1:
                 self.factors = (node.a, node.b)
                 print("SUCCESS")
                 print(f"Semiprime:\t{self.semiprime_string}")
                 print(f"A Factor:\t{node.a}")
                 print(f"B Factor:\t{node.b}")
                 break
+            elif ab_product > self.semiprime_int:
+                nodes_rejected += 1
+                continue
             new_nodes = self.process_node(node)
             self.nodes.extend(new_nodes)
             nodes_processed = nodes_processed + 1
             if nodes_processed % 5000 == 0:
                 print(f"Nodes Processed: {nodes_processed}")
+                print(f"Nodes Rejected: {nodes_rejected}")
                 print(f"Node List Length: {len(self.nodes)}")
                 print(f"Most Recent Node: a={node.a}, b={node.b}, level={node.level}")
 
