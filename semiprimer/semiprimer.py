@@ -1,6 +1,5 @@
 from collections import namedtuple, deque
 from typing import Union
-from sys import exit
 
 Node = namedtuple("Node", ["a", "b", "level"])
 
@@ -27,7 +26,7 @@ class SemiPrime:
         nodes_processed = 0
         while self.nodes:
             node = self.nodes.popleft()
-            if node.a * node.b == self.semiprime_int:
+            if node.a * node.b == self.semiprime_int and node.a != 1 and node.b != 1:
                 self.factors = (node.a, node.b)
                 print("SUCCESS")
                 print(f"Semiprime:\t{self.semiprime_string}")
