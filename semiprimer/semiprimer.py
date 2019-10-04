@@ -30,22 +30,27 @@ class SemiPrime:
             ab_product = node.a * node.b
             if ab_product == self.semiprime_int and node.a != 1 and node.b != 1:
                 self.factors = (node.a, node.b)
+                self.solved = True
                 print("SUCCESS")
                 print(f"Semiprime:\t{self.semiprime_string}")
                 print(f"A Factor:\t{node.a}")
                 print(f"B Factor:\t{node.b}")
-                break
-            elif ab_product > self.semiprime_int:
+                print(f"Nodes Processed:\t{nodes_processed}")
+                print(f"Nodes Rejected:\t{nodes_rejected}")
+                return
+            elif ab_product > self.semiprime_int or (ab_product == self.semiprime_int and (node.a == 1 or node.b == 1)):
                 nodes_rejected += 1
                 continue
             new_nodes = self.process_node(node)
             self.nodes.extend(new_nodes)
             nodes_processed = nodes_processed + 1
             if nodes_processed % 5000 == 0:
-                print(f"Nodes Processed: {nodes_processed}")
-                print(f"Nodes Rejected: {nodes_rejected}")
+                print(f"Nodes Processed:  {nodes_processed}")
+                print(f"Nodes Rejected:   {nodes_rejected}")
                 print(f"Node List Length: {len(self.nodes)}")
                 print(f"Most Recent Node: a={node.a}, b={node.b}, level={node.level}")
+        if not self.solved:
+            raise(ValueError(f"Could not find factors for {self.semiprime_string}"))
 
     def initialize_node_list(self):
         nodes = self.sub_factor(target=self.semiprime_string[-1:])
