@@ -64,10 +64,12 @@ class SemiPrime:
     @staticmethod
     def sub_factor(target: str, level: int = 1, a_value: int = 0, b_value: int = 0):
         ab_pairs = set()
+        scale = 10 ** (level - 1)
         for a in range(10):
+            a_scale = a * scale
             for b in range(10):
-                current_a = a_value + a * 10 ** (level - 1)
-                current_b = b_value + b * 10 ** (level - 1)
+                current_a = a_value + a_scale
+                current_b = b_value + b * scale
                 current_product = current_a * current_b
                 current_product_string = str(current_product)
                 if current_product_string[-level:] == target:
