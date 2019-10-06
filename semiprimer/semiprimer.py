@@ -66,9 +66,8 @@ class SemiPrime:
         ab_pairs = set()
         scale = 10 ** (level - 1)
         for a in range(10):
-            a_scale = a * scale
+            current_a = a_value + a * scale
             for b in range(10):
-                current_a = a_value + a_scale
                 current_b = b_value + b * scale
                 current_product = current_a * current_b
                 current_product_string = str(current_product)
