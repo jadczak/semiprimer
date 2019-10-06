@@ -72,6 +72,7 @@ class SemiPrime:
                 current_product = current_a * current_b
                 current_product_string = str(current_product)
                 if current_product_string[-level:] == target:
-                    ab = (current_a, current_b)
-                    ab_pairs.add(Node(a=min(ab), b=max(ab), level=level))
+                    if current_a > current_b:
+                        current_a, current_b = current_b, current_a
+                    ab_pairs.add(Node(a=current_a, b=current_b, level=level))
         return ab_pairs
