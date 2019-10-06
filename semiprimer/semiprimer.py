@@ -44,25 +44,27 @@ class SemiPrime:
             new_nodes = self.process_node(node)
             self.nodes.extend(new_nodes)
             nodes_processed = nodes_processed + 1
-            if nodes_processed % 5000 == 0:
+            if nodes_processed % 25000 == 0:
                 print(f"Nodes Processed:  {nodes_processed}")
                 print(f"Nodes Rejected:   {nodes_rejected}")
                 print(f"Node List Length: {len(self.nodes)}")
-                print(f"Most Recent Node: a={node.a}, b={node.b}, level={node.level}")
+                print(f"Most Recent Node: a={node.a}, b={node.b}, level={node.level}\n")
         if not self.solved:
-            raise (ValueError(f"Could not find factors for {self.semiprime_string}"))
+            raise (ValueError(f"Could not find factors for {self.semiprime_string}.  Prime?"))
 
     def initialize_node_list(self):
-        nodes = self.sub_factor(target=self.semiprime_string[-1:])
+        first_target = self.semiprime_int % 10
+        nodes = self.sub_factor(target=first_target)
         self.nodes.extend(nodes)
 
     def process_node(self, node: Node):
         new_level = node.level + 1
-        new_target = self.semiprime_string[-new_level:]
-        return self.sub_factor(target=new_target, level=new_level, a_value=node.a, b_value=node.b)
+        truncator = 10 ** new_level
+        new_target = self.semiprime_int % truncator
+        return self.sub_factor(target=new_target, level=new_level, a_value=node.a, b_value=node.b, truncator=truncator)
 
     @staticmethod
-    def sub_factor(target: str, level: int = 1, a_value: int = 0, b_value: int = 0):
+    def sub_factor(target: int, level: int = 1, a_value: int = 0, b_value: int = 0, truncator: int = 10):
         ab_pairs = set()
         scale = 10 ** (level - 1)
         for a in range(10):
@@ -70,8 +72,8 @@ class SemiPrime:
             for b in range(10):
                 current_b = b_value + b * scale
                 current_product = current_a * current_b
-                current_product_string = str(current_product)
-                if current_product_string[-level:] == target:
+                current_truncated_product = current_product % truncator
+                if current_truncated_product == target:
                     if current_a > current_b:
                         current_a, current_b = current_b, current_a
                     ab_pairs.add(Node(a=current_a, b=current_b, level=level))
