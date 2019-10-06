@@ -20,6 +20,9 @@ class SemiPrime:
         self.solved = False
         self.factors = None
         self.nodes = deque()
+        self.truncated_semi_lookup = {
+            i + 1: self.semiprime_int % 10 ** (i + 1) for i in range(len(self.semiprime_string))
+        }
 
     def factor(self):
         self.initialize_node_list()
@@ -53,14 +56,13 @@ class SemiPrime:
             raise (ValueError(f"Could not find factors for {self.semiprime_string}.  Prime?"))
 
     def initialize_node_list(self):
-        first_target = self.semiprime_int % 10
-        nodes = self.sub_factor(target=first_target)
+        nodes = self.sub_factor(target=self.truncated_semi_lookup[1])
         self.nodes.extend(nodes)
 
     def process_node(self, node: Node):
         new_level = node.level + 1
         truncator = 10 ** new_level
-        new_target = self.semiprime_int % truncator
+        new_target = self.truncated_semi_lookup[new_level]
         return self.sub_factor(target=new_target, level=new_level, a_value=node.a, b_value=node.b, truncator=truncator)
 
     @staticmethod
